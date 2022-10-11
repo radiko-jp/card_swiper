@@ -574,20 +574,21 @@ class _TransformerPageViewState extends State<TransformerPageView> {
       //ignore other events
       return;
     }
-    if (_pageController.hasClients) {
-      if (event.animation) {
-        _pageController
-            .animateToPage(
-              index,
-              duration: widget.duration,
-              curve: widget.curve,
-            )
-            .whenComplete(event.complete);
-      } else {
-        _pageController.jumpToPage(index);
-        event.complete();
-      }
+
+    if (!_pageController.hasClients || _pageController.page?.isNaN != false) {
+      Future<void>.delayed(Duration.zero, () => _controller?.repost(event));
+    }
+
+    if (event.animation) {
+      _pageController
+          .animateToPage(
+            index,
+            duration: widget.duration,
+            curve: widget.curve,
+          )
+          .whenComplete(event.complete);
     } else {
+      _pageController.jumpToPage(index);
       event.complete();
     }
   }
