@@ -116,4 +116,9 @@ class IndexController extends ChangeNotifier {
     notifyListeners();
     return e.future;
   }
+
+  void repost(IndexControllerEventBase event) {
+    this.event = event;
+    notifyListeners();
+  }
 }
